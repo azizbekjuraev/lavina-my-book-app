@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.warning {
+  position: absolute;
+  width: 250px;
+  right: 40%;
+  top: 15%;
+  background-color: purple;
+  color: #fff;
+  font-family: cursive;
+  padding: 0.5rem;
+  border-radius: 1rem;
+}

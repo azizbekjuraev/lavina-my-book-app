@@ -1,0 +1,32 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.busket-icon {
+  width: 30px;
+  filter: invert(100%) sepia(16%) saturate(7463%) hue-rotate(222deg)
+    brightness(119%) contrast(115%);
+}
+
+.nav-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: purple;
+  color: #fff;
+  padding: 2rem 4.5rem;
+}
+
+.nav-logo {
+  font-style: italic;
+  cursor: pointer;
+}
+.busket-icon {
+  cursor: pointer;
+}
+
+.login {
+  color: #fff;
+  text-decoration: none;
+}
