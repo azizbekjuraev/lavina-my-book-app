@@ -15,11 +15,10 @@
   align-items: center;
   background-color: purple;
   color: #fff;
-  padding: 2rem 4.5rem;
+  padding: 1.5rem 4rem;
 }
 
 .nav-logo {
-  font-style: italic;
   cursor: pointer;
 }
 .busket-icon {

@@ -1,6 +1,6 @@
 import React from "react";
 import list from "../data";
-import Cards from "./Cards";
+import Cards from "./Cards/Cards";
 import "./styles/Amazon.css";
 
 const Amazon = ({ handleClick }) => {

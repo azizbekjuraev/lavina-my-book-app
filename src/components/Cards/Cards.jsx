@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/Cards.css";
+import "../styles/Cards.css";
 
 const Cards = ({ item, handleClick }) => {
   const { title, author, price, img } = item;
