@@ -29,9 +29,9 @@ const Navbar = ({ size, setShow }) => {
             <span>{size}</span>
           </span>
           <div>
-            <a href="# " className="login">
+            <Link to="/login" className="login">
               Login
-            </a>
+            </Link>
           </div>
         </div>
       </div>

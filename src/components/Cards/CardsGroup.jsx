@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Im
 import Navbar from "../Navbar";
 import Amazon from "../Amazon";
 import Cart from "./Cart";
+import Login from "../Auth/Login";
+import Register from "../Auth/Register";
 import Categories from "../Categories";
 
 const CardsGroup = () => {
@@ -48,6 +50,8 @@ const CardsGroup = () => {
             path="/cart"
             element={<Cart cart={cart} setCart={setCart} />}
           />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
 
         {warning && (
