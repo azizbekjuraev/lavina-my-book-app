@@ -4,6 +4,7 @@ import "../styles/Cart.css";
 const Cart = ({ cart, setCart }) => {
   const [price, setPrice] = useState(0);
   const quantity = cart.reduce((total, item) => total + item.amount, 0);
+  console.log(quantity);
 
   function increment(index) {
     const updatedCart = [...cart];
@@ -13,6 +14,7 @@ const Cart = ({ cart, setCart }) => {
 
   function decrement(index) {
     const updatedCart = [...cart];
+    console.log(updatedCart);
     if (updatedCart[index].amount > 1) {
       updatedCart[index].amount -= 1;
     }

@@ -12,6 +12,10 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import firebase from "../../static/firebase";
+import LoadingSpinner from "../../utils/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 function Copyright(props) {
   return (
@@ -31,96 +35,126 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function Login() {
-  const handleSubmit = (event) => {
+  const [loading, setLoading] = React.useState(false);
+  const navigate = useNavigate();
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const email = data.get("email");
+    const password = data.get("password");
+
+    if (!email || !password) {
+      toast.error("Please enter both email and password", {
+        position: "bottom-center",
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const userCredential = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password);
+      // Signed in
+      const user = userCredential.user;
+      console.log(user);
+      toast.success("You have successfully logged in!", {
+        position: "bottom-center",
+      });
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+    } catch (e) {
+      console.log(e);
+      toast.error(`Error ${e}`, { position: "top-center" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Login
-          </Typography>
+    <div>
+      <ThemeProvider theme={defaultTheme}>
+        <Toaster position="top-right" reverseOrder={false} />
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
           <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
               Login
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
+            </Typography>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
+            >
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2, height: 55 }}
+              >
+                {loading ? <LoadingSpinner /> : "Login"}
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link
+                    href="/register"
+                    className="cursor-pointer"
+                    variant="body2"
+                  >
+                    Don't have an account? Sign Up
+                  </Link>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Link
-                  href="/register"
-                  className="cursor-pointer"
-                  variant="body2"
-                >
-                  Don't have an account? Sign Up
-                </Link>
-              </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
+          <Copyright sx={{ mt: 8, mb: 4 }} />
+        </Container>
+      </ThemeProvider>
+    </div>
   );
 }
